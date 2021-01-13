@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mars Data</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="app.js"></script>
 </head>
 
 <body>
@@ -35,5 +36,23 @@
                 <div>{{ mars.mars_facts |safe}}</div>
             </div>
         </div>
-    </div>
+
+        <div class="row">
+            {% for hemisphere in mars.hemispheres[0:2] %}
+            <div class="col-md-6">
+                <h3>{{hemi.title}}</h3>
+                <a href="{{hemishere.url}}" target="blank"><img style="width:90%" src="{{hemishere.url}}"></a>
+            </div>
+            {% enf for %}
+        </div>
+        <div class="row">
+            {% for hemisphere in mars.hemispheres[2:4] %}
+            <div class="col-md-6">
+                <h3>{{hemi.title}}</h3>
+                <a href="{{hemishere.url}}" target="blank"><img style="width:90%" src="{{hemishere.url}}"></a>
+            </div>
+            {% enf for %}
+        </div>
 </body>
+
+</html>

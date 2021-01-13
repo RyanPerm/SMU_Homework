@@ -5,21 +5,21 @@ import pandas as pd
 import datetime
 import time
 
-class ScrapeMars():
+class scrapeweb():
     def __init__(self):
         pass
 
     def init_browser(self):
         executable_path = {'executable_path': ChromeDriverManager().install()}
-        browser = Browser('chrome', **executable_path, headless=True)
+        browser = Browser('chrome', **executable_path)
+        return browser
     
-    def scrape_info(self):
+    def scrape_mars_info(self):
 
         scraped_data = {}
-
         browser = self.init_browser()
 
-## NEWS
+# NEWS
 
         url = "https://mars.nasa.gov/news/"
         browser.visit(url)
@@ -27,28 +27,28 @@ class ScrapeMars():
 
         soup = bsp(browser.html)
         slide = soup.find("li", {"class": "slide"})
-        news_title = soup.find("div", {"class": "content_title"}).text.strip()
-        news_p = soup.find("div", {"class": "article_teaser_body"}).text.strip()
+        news_title = slide.find("div", {"class": "content_title"}).text.strip()
+        news_p = slide.find("div", {"class": "article_teaser_body"}).text.strip()
 
-## IMAGES
+# IMAGES
 
-        base = "https://www.jpl.nasa.gov/"
-        url = f"{base}/spaceimages/?search=&category=Mars"
-        browser.visit(url)
-        time.sleep(2)
+        # base = "https://www.jpl.nasa.gov"
+        # url = f"{base}/spaceimages/?search=&category=Mars"
+        # browser.visit(url)
+        # time.sleep(2)
 
-        browser.find_by_id("full_image").click()
-        time.sleep(2)
+        # browser.find_by_id("full_image").click()
+        # time.sleep(2)
 
-        browser.find_link_by_partial_text("more info").click()
-        time.sleep(2)
+        # browser.find_link_by_partial_text("more info").click()
+        # time.sleep(2)
 
-        soup = bsp(browser.html)
-        image = soup.find("img", {"class": "main_image"})
+        # soup = bsp(browser.html)
+        # image = soup.find("img", {"class": "main_image"})
 
-        image_url = base + image["src"]
+        # image_url = base + image["src"]
 
-## FACTS
+# FACTS
         url = "https://space-facts.com/mars/"
         browser.visit(url)
         time.sleep(2)
@@ -58,7 +58,7 @@ class ScrapeMars():
         df.columns = ["Statistic","Value"]
         mars_facts = df.to_html(index=False)
 
-## DATA
+# DATA
 
         base = "https://astrogeology.usgs.gov"
         url = f"{base}/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
@@ -88,6 +88,8 @@ class ScrapeMars():
 
         scraped_data["news_title"] = news_title
         scraped_data["news_p"] = news_p
-        scraped_data["image_url"] = image_url
+        #scraped_data["image_url"] = image_url
         scraped_data["mars_facts"] = mars_facts
         scraped_data["hemispheres"] = hemi_data
+
+        return scraped_data
